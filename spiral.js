@@ -45,6 +45,15 @@ function draw_text() {
     pop()
 }
   
+function mousePressed() {
+    let fs = fullscreen();
+    fullscreen(!fs);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 // Set which spiral to use. Uncomment the line to use that spiral.
 draw_spiral = draw_square_spiral
 // draw_spiral = draw_curve_spiral
