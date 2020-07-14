@@ -16,7 +16,7 @@ function draw_inner_rect(offset, start_width, end_width) {
 
   frameStep = frameCount + offset
 
-  // stroke(5, 255 * (1 - ((frameStep % 300) / 150)), 255 * (frameStep % 300) / 150);
+  stroke(0, 100 * Math.sqrt((1-(((frameStep) % width_diff))/width_diff)),  100);
   rect(0, 0, start_width - ((frameStep) % width_diff), start_width - ((frameStep) % width_diff));
 }
 
@@ -40,7 +40,7 @@ function draw_outer_rect(offset, start_width, end_width){
 
   frameStep = frameCount + offset
 
-  // stroke(5, 255 * (0.5 + ((frameStep % 500) / 1000)), 255 * (0.5 - (frameStep % 500) / 1000));
+  stroke(0, 100, 100 * Math.sqrt(1-(((frameStep) % width_diff))/width_diff));
   rect(0, 0, start_width + ((frameStep) % width_diff), start_width + ((frameStep) % width_diff));
 }
 
@@ -60,6 +60,6 @@ function draw_square_spiral() {
 
   // Swap from inwards to outwards at 200 pixels.
   draw_inner_set(200, 0)
-  draw_outer_set(200, 1000)
+  draw_outer_set(200, width/2)
   pop();
 }
