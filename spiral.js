@@ -1,8 +1,8 @@
 // Words to be displayed. Source: https://hypno.nimja.com/visual
-const words = ["blank","bliss","blissfully","calm","calmer","deep","deeper","desire",
+const words = ["blank","bliss","calm","calmer","deep","deeper","desire",
 "drifting","drop","empty","empty mind","floating","follow","keep looking","keep reading",
 "keep staring","keep watching","no thoughts","relax","sinking","stare","always aroused",
-"always horny","aroused being seen","be seen","crave","display","love","need to","seen",
+"always horny","be seen","crave","display","love","need to","seen",
 "show off","show skin","showing off","skin","your body","be good","behave","down",
 "good pet","obey","sit","very good","well done"];
 
@@ -60,17 +60,20 @@ draw_spiral = draw_square_spiral
 
 function draw() {
     background(0)
+    stroke(0);
+      
   
     // Rotate the centre around a 25 unit radius every 10s.
-    moving_centre(10*60, 25);
+    //moving_centre(10*60, 25);
+    stationary_centre();
   
     draw_spiral()
   
-    draw_text()
+    // draw_text()
 
     // Uncomment to save a single screenshot.
     // if(frameCount == 1) {
     //   saveCanvas("capture")
     // }
   
-  }
+}
