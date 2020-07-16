@@ -55,8 +55,6 @@ function draw_outer_rect(offset, start_width, end_width){
 
 
 function draw_square_spiral() {
-  push();
-
   // Set up stroke and rectangle mode.
   noFill();
   colorMode(HSB);
@@ -67,5 +65,4 @@ function draw_square_spiral() {
   // Swap from inwards to outwards at 200 pixels.
   draw_inner_set(200, 0)
   draw_outer_set(200, width/(1.9))
-  pop();
 }

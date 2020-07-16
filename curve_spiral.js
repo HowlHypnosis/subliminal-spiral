@@ -3,8 +3,6 @@ const ROTATION_DEGREES = 3;
 
 function draw_curve_spiral() {
 
-  push();
-
   // Rotate the spiral every frame
   rotate(radians(frameCount * ROTATION_DEGREES));
 
@@ -19,6 +17,4 @@ function draw_curve_spiral() {
     stroke("purple")
     arc(0,0, 10 * i, 10 * i, PI + i/2, PI + (i/2) + 0.5)
   }
-
-  pop();
 }

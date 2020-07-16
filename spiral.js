@@ -54,9 +54,15 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-// Set which spiral to use. Uncomment the line to use that spiral.
-draw_spiral = draw_square_spiral
-// draw_spiral = draw_curve_spiral
+function draw_spiral() {
+  push();
+
+  // Set which spiral to use. Uncomment the line to use that spiral.
+  draw_square_spiral()
+  // draw_curve_spiral()
+
+  pop();
+}
 
 function draw() {
     background(0)
