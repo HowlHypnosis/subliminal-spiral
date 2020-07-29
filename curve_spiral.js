@@ -1,5 +1,5 @@
 // Number of degrees to rotate the spiral per frame
-const ROTATION_DEGREES = 3;
+const ROTATION_DEGREES = 4;
 
 function draw_curve_spiral() {
 
