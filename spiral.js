@@ -7,38 +7,47 @@ const words = ["blank","bliss","calm","calmer","deep","deeper","desire",
 "good pet","obey","sit","very good","well done"];
 
 // Show a word every wordFreq frames, lasting for wordDuration frames.
-const wordFreq = 3 * 60
-const wordDuration = 0.25 * 60
+const wordFreq = 2 * 60 // TODO: Random frequency
+const wordDuration = 0.5 * 60
+const max_opacity = 0.9
+
 
 // Set-up Canvas
 function setup() {
     createCanvas(windowWidth, windowHeight);
   
     rectMode(RADIUS);
+
+    word = words[Math.floor(Math.random() * words.length)]
   }
 
 // Draw a word to the screen with correct opacity and randomness.
 function draw_text() {
     push()
 
-    // 100% opacity for the first wordDuration frames, 0% for the rest.
-    opacity = (frameCount % wordFreq) < wordDuration;
+    // Hide word except during the first wordDuration frames
+    show_word = (frameCount % wordFreq) < wordDuration;
+
+    // Opacity is a sine wave with zeros at the start and end of the enable period.
+    // opacity = max_opacity * show_word * Math.sin((1 + ((frameCount % wordFreq) / wordDuration)) * Math.PI / 2)
+    // Opacity is a sine wave with max at first and zero at end of the enable period. Gives a "harder" flash.
+    opacity = max_opacity * show_word * Math.sin((1 + ((frameCount % wordFreq) / wordDuration)) * Math.PI / 2)
+    
 
     // Set to a white stroke
     fill(255, 255, 255, 255 * opacity);
-    stroke(255, 255, 255, 255 * opacity);
+    stroke(255, 255, 255, 0);
 
     // Set font to be bold, monospaced, and centred.
     textFont('monospace')
-    textSize(50);
+    textSize(75);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
 
     // TODO: Get random words.
-    word = "drop"
-    // if((frameCount % wordFreq) == wordDuration) {
-    //     word = words[Math.floor(Math.random() * words.length)]
-    // }
+    if((frameCount % wordFreq) > wordDuration) {
+        word = words[Math.floor(Math.random() * words.length)]
+    }
     // Write the text
     text(word, 0,0);
 
@@ -48,6 +57,10 @@ function draw_text() {
 function mousePressed() {
     let fs = fullscreen();
     fullscreen(!fs);
+    // saveFrames('out', 'png', 1, 30, //data => {
+    //  print(data);
+    //});
+    // );
 }
 
 function windowResized() {
@@ -59,8 +72,8 @@ function draw_spiral() {
 
   // Set which spiral to use. Uncomment the line to use that spiral.
   // draw_square_spiral()
-  // draw_curve_spiral()
-  draw_dot_spiral()
+  draw_curve_spiral()
+  // draw_dot_spiral()
 
   pop();
 }
@@ -71,12 +84,12 @@ function draw() {
       
   
     // Rotate the centre around a 25 unit radius every 10s.
-    //moving_centre(10*60, 25);
+    // moving_centre(10*60, 25);
     stationary_centre();
 
     draw_spiral()
   
-    // draw_text()
+    draw_text()
 
     // Uncomment to save a single screenshot.
     // if(frameCount == 1) {
