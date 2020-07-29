@@ -11,6 +11,11 @@ const wordFreq = 2 * 60 // TODO: Random frequency
 const wordDuration = 0.5 * 60
 const max_opacity = 0.9
 
+const useRandomWords = false
+const useLiveWordMode = true
+
+var nextWord
+var word
 
 // Set-up Canvas
 function setup() {
@@ -18,7 +23,13 @@ function setup() {
   
     rectMode(RADIUS);
 
-    word = words[Math.floor(Math.random() * words.length)]
+    // Initialse one of the two methods of getting words
+    if (useRandomWords) {
+      word = words[Math.floor(Math.random() * words.length)]
+    }
+    if (useLiveWordMode) {
+      httpGet("http://localhost:8080/", callback = handleWebpageResponse)
+    }
   }
 
 // Draw a word to the screen with correct opacity and randomness.
@@ -44,10 +55,15 @@ function draw_text() {
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
 
-    // TODO: Get random words.
+    // Determine the next word when it's not visable.
     if((frameCount % wordFreq) > wordDuration) {
-        word = words[Math.floor(Math.random() * words.length)]
-    }
+        if (useRandomWords) {
+          word = words[Math.floor(Math.random() * words.length)]
+        } 
+        if (useLiveWordMode) {
+          word = nextWord
+        }
+      }
     // Write the text
     text(word, 0,0);
 
