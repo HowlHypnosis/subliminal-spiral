@@ -10,8 +10,12 @@ import (
 
 var word (chan string)
 
-func hello(w http.ResponseWriter, req *http.Request) {
+func wordServer(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, <-word)
+}
+
+func spiralHandler(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "index.html")
 }
 
 func main() {
@@ -32,7 +36,17 @@ func main() {
 		}
 	}()
 
-	http.HandleFunc("/", hello)
+	fmt.Println("WARNING: Currently running in unsecured mode. DO NOT USE FOR PRODUCTION.")
+
+	http.HandleFunc("/words", wordServer)
+	http.HandleFunc("/spiral", spiralHandler)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// TODO: ABSOLUTELY GET RID OF THIS
+		// DO NOT LEAVE THIS IN PRODUCTION CODE
+		// I'M BEGGING YOU
+		// do NOT do this. (see below)
+		http.ServeFile(w, r, r.URL.Path[1:])
+	})
 
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }

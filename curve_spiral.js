@@ -1,10 +1,10 @@
-// Number of degrees to rotate the spiral per frame
-const ROTATION_DEGREES = 4;
+// Frames to rotate the entire spiral
+const ROTATION_PERIOD = 1.5 * FPS
 
 function draw_curve_spiral() {
 
   // Rotate the spiral every frame
-  rotate(radians(frameCount * ROTATION_DEGREES));
+  rotate(2 * Math.PI * frameCount / ROTATION_PERIOD);
 
   strokeWeight(5)
   noFill();

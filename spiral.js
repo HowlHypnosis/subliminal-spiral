@@ -7,8 +7,8 @@ const words = ["blank","bliss","calm","calmer","deep","deeper","desire",
 "good pet","obey","sit","very good","well done"];
 
 // Show a word every wordFreq frames, lasting for wordDuration frames.
-const wordFreq = 2 * 60 // TODO: Random frequency
-const wordDuration = 0.5 * 60
+const wordFreq = 2 * FPS // TODO: Random frequency
+const wordDuration = 0.5 * FPS
 const max_opacity = 0.9
 
 const useRandomWords = false
@@ -21,6 +21,7 @@ var word
 function setup() {
     createCanvas(windowWidth, windowHeight);
   
+    frameRate(FPS)
     rectMode(RADIUS);
 
     // Initialse one of the two methods of getting words
@@ -28,7 +29,7 @@ function setup() {
       word = words[Math.floor(Math.random() * words.length)]
     }
     if (useLiveWordMode) {
-      httpGet("http://localhost:8080/", callback = handleWebpageResponse)
+      start_word_fetch()
     }
   }
 
@@ -100,7 +101,7 @@ function draw() {
       
   
     // Rotate the centre around a 25 unit radius every 10s.
-    // moving_centre(10*60, 25);
+    // moving_centre(10*FPS, 25);
     stationary_centre();
 
     draw_spiral()
