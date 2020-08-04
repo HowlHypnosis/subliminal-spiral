@@ -15,7 +15,7 @@ func wordServer(w http.ResponseWriter, req *http.Request) {
 }
 
 func spiralHandler(w http.ResponseWriter, req *http.Request) {
-	http.ServeFile(w, req, "index.html")
+	http.ServeFile(w, req, "static/index.html")
 }
 
 func main() {
@@ -36,17 +36,9 @@ func main() {
 		}
 	}()
 
-	fmt.Println("WARNING: Currently running in unsecured mode. DO NOT USE FOR PRODUCTION.")
-
 	http.HandleFunc("/words", wordServer)
 	http.HandleFunc("/spiral", spiralHandler)
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// TODO: ABSOLUTELY GET RID OF THIS
-		// DO NOT LEAVE THIS IN PRODUCTION CODE
-		// I'M BEGGING YOU
-		// do NOT do this. (see below)
-		http.ServeFile(w, r, r.URL.Path[1:])
-	})
+	http.Handle("/", http.FileServer(http.Dir("./static")))
 
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }
