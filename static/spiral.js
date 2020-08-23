@@ -88,16 +88,16 @@ function draw_spiral() {
   push();
 
   // Set which spiral to use. Uncomment the line to use that spiral.
-  // draw_square_spiral()
-  draw_curve_spiral()
+  draw_square_spiral()
+  // draw_curve_spiral()
   // draw_dot_spiral()
 
   pop();
 }
 
 function draw() {
-    background(0)
-    stroke(0);
+    background("black")
+    stroke("black");
       
   
     // Rotate the centre around a 25 unit radius every 10s.

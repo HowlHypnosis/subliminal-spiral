@@ -1,4 +1,4 @@
-const hue = 0;
+const hue = 300;
 
 // Draw a set of squares moving inwards from the first width to the second width.
 function draw_inner_set(start_width, end_width) {
