@@ -6,12 +6,18 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sync"
 )
 
-var word (chan string)
+var currentWord struct {
+	sync.Mutex
+	text string
+}
 
 func wordServer(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, <-word)
+	currentWord.Lock()
+	fmt.Fprintf(w, currentWord.text)
+	currentWord.Unlock()
 }
 
 func spiralHandler(w http.ResponseWriter, req *http.Request) {
@@ -20,19 +26,16 @@ func spiralHandler(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 
-	word = make(chan string)
-
 	go func() {
 		ioreader := bufio.NewReader(os.Stdin)
 
 		for {
 			newWord, _ := ioreader.ReadString('\n')
 
-			// Send the new word
-			select {
-			case word <- newWord:
-			default:
-			}
+			// Save the word.
+			currentWord.Lock()
+			currentWord.text = newWord
+			currentWord.Unlock()
 		}
 	}()
 
