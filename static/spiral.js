@@ -24,6 +24,12 @@ function setup() {
     if (useRandomWords) {
       word = words[Math.floor(Math.random() * words.length)]
     }
+    if (useScript) {
+      fetch('scripts/' + scriptName + ".hypno")
+        .then(response => response.text())
+        .then(text => scriptWords = text.split('\n'))
+  // outputs the content of the text file
+    }
     if (useLiveWordMode) {
       single_word_fetch()
     }
@@ -57,6 +63,9 @@ function draw_text() {
         if (useRandomWords) {
           word = words[Math.floor(Math.random() * words.length)]
         } 
+        if (useScript) {
+          word = scriptWords.shift()
+        }
         if(useLiveWordMode) {
           single_word_fetch()
         }
