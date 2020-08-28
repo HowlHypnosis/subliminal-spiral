@@ -15,13 +15,13 @@ const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 
 
 
 const WORD_ADDRESS = "words"
-// Recursive web request to get a word from the local server. TODO: make this directly address the server.
-function handle_word_response(response) {
+
+// Functions to get a single word from the server.
+function handle_single_word(response) {
     print(response)
-    nextWord = response.slice(0, -1);
-    httpGet(WORD_ADDRESS, callback = handle_word_response)
+    word = response.slice(0, -1);
 }
 
-function start_word_fetch() {
-    httpGet(WORD_ADDRESS, callback = handle_word_response)
+function single_word_fetch() {
+    httpGet(WORD_ADDRESS, callback = handle_single_word)
 }

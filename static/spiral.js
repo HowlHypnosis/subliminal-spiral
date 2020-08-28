@@ -11,10 +11,6 @@ const wordFreq = 2 * FPS // TODO: Random frequency
 const wordDuration = 0.5 * FPS
 const max_opacity = 0.9
 
-const useRandomWords = false
-const useLiveWordMode = true
-
-var nextWord
 var word
 
 // Set-up Canvas
@@ -29,7 +25,7 @@ function setup() {
       word = words[Math.floor(Math.random() * words.length)]
     }
     if (useLiveWordMode) {
-      start_word_fetch()
+      single_word_fetch()
     }
   }
 
@@ -57,12 +53,12 @@ function draw_text() {
     textAlign(CENTER, CENTER);
 
     // Determine the next word when it's not visable.
-    if((frameCount % wordFreq) > wordDuration) {
+    if((frameCount % wordFreq) == wordDuration) {
         if (useRandomWords) {
           word = words[Math.floor(Math.random() * words.length)]
         } 
-        if (useLiveWordMode) {
-          word = nextWord
+        if(useLiveWordMode) {
+          single_word_fetch()
         }
       }
     // Write the text
