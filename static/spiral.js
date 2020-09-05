@@ -7,7 +7,7 @@ const words = ["blank","bliss","calm","calmer","deep","deeper","desire",
 "good pet","obey","sit","very good","well done"];
 
 // Show a word every wordFreq frames, lasting for wordDuration frames.
-const wordFreq = 2 * FPS // TODO: Random frequency
+const wordFreq = 3 * FPS
 const wordDuration = 0.5 * FPS
 const max_opacity = 0.9
 
