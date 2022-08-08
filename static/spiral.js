@@ -54,7 +54,7 @@ function draw_text() {
 
     // Set font to be bold, monospaced, and centred.
     textFont('monospace')
-    textSize(75);
+    textSize(width / 25);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
 

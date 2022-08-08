@@ -62,7 +62,10 @@ function draw_square_spiral() {
   strokeJoin(ROUND);
   rectMode(RADIUS);
 
+  outer_boundary = max(width, height)
+  spiral_reverse_point = 0.1 * outer_boundary
+
   // Swap from inwards to outwards at 200 pixels.
-  draw_inner_set(200, 0)
-  draw_outer_set(200, width/(1.9))
+  draw_inner_set(spiral_reverse_point, 0)
+  draw_outer_set(spiral_reverse_point, outer_boundary/(1.9))
 }
