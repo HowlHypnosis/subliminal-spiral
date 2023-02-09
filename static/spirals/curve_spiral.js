@@ -1,5 +1,5 @@
 // Frames to rotate the entire spiral
-const ROTATION_PERIOD = 1.5 * FPS
+const ROTATION_PERIOD = 1.5 * parameters["fps"]
 
 function draw_curve_spiral() {
 

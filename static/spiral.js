@@ -7,8 +7,8 @@ const words = ["blank","bliss","calm","calmer","deep","deeper","desire",
 "good pet","obey","sit","very good","well done"];
 
 // Show a word every wordFreq frames, lasting for wordDuration frames.
-const wordFreq = 3 * FPS
-const wordDuration = 0.5 * FPS
+const wordFreq = 3 * parameters["fps"]
+const wordDuration = 0.5 * parameters["fps"]
 const max_opacity = 0.9
 
 var word
@@ -17,20 +17,20 @@ var word
 function setup() {
     createCanvas(windowWidth, windowHeight);
   
-    frameRate(FPS)
+    frameRate(parameters["fps"])
     rectMode(RADIUS);
 
     // Initialse one of the two methods of getting words
-    if (useRandomWords) {
+    if (parameters["subliminalSettings"]["mode"] == "random") {
       word = words[Math.floor(Math.random() * words.length)]
     }
-    if (useScript) {
-      fetch('scripts/' + scriptName + ".hypno")
+    if (parameters["subliminalSettings"]["mode"] == "script") {
+      fetch('scripts/' + parameters["subliminalSettings"]["scriptName"] + ".hypno")
         .then(response => response.text())
         .then(text => scriptWords = text.split('\n'))
   // outputs the content of the text file
     }
-    if (useLiveWordMode) {
+    if (parameters["subliminalSettings"]["mode"] == "script") {
       single_word_fetch()
     }
   }
@@ -60,13 +60,13 @@ function draw_text() {
 
     // Determine the next word when it's not visable.
     if((frameCount % wordFreq) == wordDuration) {
-        if (useRandomWords) {
+        if (parameters["subliminalSettings"]["mode"] == "random") {
           word = words[Math.floor(Math.random() * words.length)]
         } 
-        if (useScript) {
+        if (parameters["subliminalSettings"]["mode"] == "script") {
           word = scriptWords.shift()
         }
-        if(useLiveWordMode) {
+        if(parameters["subliminalSettings"]["mode"] == "script") {
           single_word_fetch()
         }
       }
@@ -89,13 +89,18 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function draw_spiral() {
+function draw_spiral(spiral_style) {
   push();
 
-  // Set which spiral to use. Uncomment the line to use that spiral.
-  draw_square_spiral()
-  // draw_curve_spiral()
-  // draw_dot_spiral()
+  if (spiral_style == "square") {
+    draw_square_spiral()
+  } else if (spiral_style == "dot") {
+    draw_dot_spiral()
+  } else if (spiral_style == "curve") {
+    draw_curve_spiral()
+  } else {
+    throw "Invalid spiral" + spiral_style
+  }
 
   pop();
 }
@@ -106,10 +111,10 @@ function draw() {
       
   
     // Rotate the centre around a 25 unit radius every 10s.
-    // moving_centre(10*FPS, 25);
+    // moving_centre(10*parameters["fps"], 25);
     stationary_centre();
 
-    draw_spiral()
+    draw_spiral(parameters["spiral"])
   
     draw_text()
 
