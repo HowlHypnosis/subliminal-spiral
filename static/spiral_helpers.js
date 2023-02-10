@@ -19,9 +19,36 @@ const WORD_ADDRESS = "words"
 // Functions to get a single word from the server.
 function handle_single_word(response) {
     print(response)
-    word = response.slice(0, -1);
+    if (parameters["subliminal_mode"] == "live") {
+        wordQueue.push(response)
+    }
 }
 
-function single_word_fetch() {
-    httpGet(WORD_ADDRESS, callback = handle_single_word)
+async function subscribe_to_script_server() {
+    let response = await fetch("/" + WORD_ADDRESS);
+    
+    print("subscription ping")
+
+    if (response.status == 502) {
+        // Status 502 is a connection timeout error,
+        // may happen when the connection was pending for too long,
+        // and the remote server or a proxy closed it
+        // let's reconnect
+        await subscribe_to_script_server();
+    } else if (response.status != 200) {
+        // An error - let's show it
+        showMessage(response.statusText);
+        // Reconnect in one second
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await subscribe_to_script_server();
+    } else {
+        // Get and show the message
+        let message = await response.text();
+        print(message)
+        handle_single_word(message);
+        // Call subscribe() again to get the next message
+        await subscribe_to_script_server();
+    }
+    
+    subscribe_to_script_server();
 }

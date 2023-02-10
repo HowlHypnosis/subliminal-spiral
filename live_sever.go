@@ -9,15 +9,21 @@ import (
 	"sync"
 )
 
+// Channel to synchronise long-polling.
+var waitForNewWord chan struct{}
+
 var currentWord struct {
-	sync.Mutex
+	sync.RWMutex
 	text string
 }
 
 func wordServer(w http.ResponseWriter, req *http.Request) {
-	currentWord.Lock()
+
+	// Wait for a new word to be input.
+	<-waitForNewWord
+	currentWord.RLock()
 	fmt.Fprintf(w, currentWord.text)
-	currentWord.Unlock()
+	currentWord.RUnlock()
 }
 
 func spiralHandler(w http.ResponseWriter, req *http.Request) {
@@ -25,6 +31,9 @@ func spiralHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+
+	// Indictator for a word change
+	waitForNewWord = make(chan struct{})
 
 	go func() {
 		ioreader := bufio.NewReader(os.Stdin)
@@ -36,6 +45,11 @@ func main() {
 			currentWord.Lock()
 			currentWord.text = newWord
 			currentWord.Unlock()
+
+			// Close the existing channel to broadcast
+			// and then create a new channel for the next session.
+			close(waitForNewWord)
+			waitForNewWord = make(chan struct{})
 		}
 	}()
 
@@ -43,7 +57,7 @@ func main() {
 	http.HandleFunc("/spiral", spiralHandler)
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 
-	log.Println("http://localhost:8080/spiral.html")
+	log.Println("http://localhost:8080/spiral.html?subliminal_mode=live")
 
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }

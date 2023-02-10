@@ -11,34 +11,48 @@ const wordFreq = 3 * parameters["fps"]
 const wordDuration = 0.5 * parameters["fps"]
 const max_opacity = 0.9
 
+// Current word for display.
 var word
+var wordQueue = []
 
 // Set-up Canvas
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-  
-    frameRate(parameters["fps"])
-    rectMode(RADIUS);
+  createCanvas(windowWidth, windowHeight);
 
-    // Initialse one of the two methods of getting words
-    if (parameters["subliminal_mode"] == "random") {
-      word = words[Math.floor(Math.random() * words.length)]
-    }
-    if (parameters["subliminal_mode"] == "script") {
-      fetch('scripts/' + parameters["subliminal_scriptName"] + ".hypno")
-        .then(response => response.text())
-        .then(text => scriptWords = text.split('\n'))
-  // outputs the content of the text file
-    }
-    if (parameters["subliminal_mode"] == "live") {
-      single_word_fetch()
-    }
+  frameRate(parameters["fps"])
+  rectMode(RADIUS);
+
+  // Begin long-poll to the script server. 
+  subscribe_to_script_server();
+
+  // Initalise the subliminal selection.
+  if (parameters["subliminal_mode"] == "random") {
+    word = words[Math.floor(Math.random() * words.length)]
+  } else if (parameters["subliminal_mode"] == "script") {
+    // Get the contents of the hypnosis script.
+    fetch('scripts/' + parameters["subliminal_scriptName"] + ".hypno")
+      .then(response => response.text())
+      .then(text => wordQueue = text.split('\n'))
   }
+}
 
 // Draw a word to the screen with correct opacity and randomness.
 function draw_text() {
     push()
 
+    // Determine the next word when it's not visable.
+    if((frameCount % wordFreq) == 0) {
+      if (parameters["subliminal_mode"] == "random") {
+        word = words[Math.floor(Math.random() * words.length)]
+      } else if (parameters["subliminal_mode"] == "script") {
+        word = wordQueue.shift()
+      } else if(parameters["subliminal_mode"] == "live") {
+        word = wordQueue.shift()
+      }
+    }
+
+    // Word opacity is a piecewave sine wave. It jumps to 0.9 at the start of the show period,
+    // Decays by a sine wave for the duration, and then sits at zero until the next period.
     // Hide word except during the first wordDuration frames
     show_word = (frameCount % wordFreq) < wordDuration;
 
@@ -58,18 +72,6 @@ function draw_text() {
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
 
-    // Determine the next word when it's not visable.
-    if((frameCount % wordFreq) == wordDuration) {
-        if (parameters["subliminal_mode"] == "random") {
-          word = words[Math.floor(Math.random() * words.length)]
-        } 
-        if (parameters["subliminal_mode"] == "script") {
-          word = scriptWords.shift()
-        }
-        if(parameters["subliminal_mode"] == "live") {
-          single_word_fetch()
-        }
-      }
     // Write the text
     text(word, 0,0);
 
