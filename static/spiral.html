@@ -19,20 +19,12 @@
   parameters = {
     "fps" : "60",
     "spiral" : "square",
+    // "subliminal_mode" : "script",
+    // Default script.
+    "subliminal_scriptName" : "kneel-for-me",
+    // "subliminal_mode" : "live",
+    "subliminal_mode" : "random",
   }
-
-  // parameters["subliminalSettings"] = {
-  //     "mode" : "random" // script, live
-  // }
-
-  parameters["subliminalSettings"] = {
-    "mode" : "script",
-    "scriptName" : "kneel-for-me"
-  }
-
-  //parameters["subliminalSettings"] = {
-  //    "mode" : "live"
-  //}
 
   // Get parameters from the URL, and use these to overwrite the parameters in the parameters dict.
   const query_params = new URLSearchParams(window.location.search)

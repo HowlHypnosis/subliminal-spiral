@@ -1,5 +1,5 @@
 // Words to be displayed. Source: https://hypno.nimja.com/visual
-const words = ["blank","bliss","calm","calmer","deep","deeper","desire",
+const words = ["blank","bliss","calm","calmer","deep","deeper","desire", "drooling", "melt for me",
 "drifting","drop","empty","empty mind","floating","follow","keep looking","keep reading",
 "keep staring","keep watching","no thoughts","relax","sinking","stare","always aroused",
 "always horny","be seen","crave","display","love","need to","seen",
@@ -21,16 +21,16 @@ function setup() {
     rectMode(RADIUS);
 
     // Initialse one of the two methods of getting words
-    if (parameters["subliminalSettings"]["mode"] == "random") {
+    if (parameters["subliminal_mode"] == "random") {
       word = words[Math.floor(Math.random() * words.length)]
     }
-    if (parameters["subliminalSettings"]["mode"] == "script") {
-      fetch('scripts/' + parameters["subliminalSettings"]["scriptName"] + ".hypno")
+    if (parameters["subliminal_mode"] == "script") {
+      fetch('scripts/' + parameters["subliminal_scriptName"] + ".hypno")
         .then(response => response.text())
         .then(text => scriptWords = text.split('\n'))
   // outputs the content of the text file
     }
-    if (parameters["subliminalSettings"]["mode"] == "script") {
+    if (parameters["subliminal_mode"] == "live") {
       single_word_fetch()
     }
   }
@@ -60,13 +60,13 @@ function draw_text() {
 
     // Determine the next word when it's not visable.
     if((frameCount % wordFreq) == wordDuration) {
-        if (parameters["subliminalSettings"]["mode"] == "random") {
+        if (parameters["subliminal_mode"] == "random") {
           word = words[Math.floor(Math.random() * words.length)]
         } 
-        if (parameters["subliminalSettings"]["mode"] == "script") {
+        if (parameters["subliminal_mode"] == "script") {
           word = scriptWords.shift()
         }
-        if(parameters["subliminalSettings"]["mode"] == "script") {
+        if(parameters["subliminal_mode"] == "live") {
           single_word_fetch()
         }
       }

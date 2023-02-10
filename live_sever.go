@@ -43,5 +43,7 @@ func main() {
 	http.HandleFunc("/spiral", spiralHandler)
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 
+	log.Println("http://localhost:8080/spiral.html")
+
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }
