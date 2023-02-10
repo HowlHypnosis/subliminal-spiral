@@ -1,10 +1,12 @@
-// Words to be displayed. Source: https://hypno.nimja.com/visual
-const words = ["blank","bliss","calm","calmer","deep","deeper","desire", "drooling", "melt for me",
+// Words to be displayed. Inspired by: https://hypno.nimja.com/visual
+const words = ["blank","bliss","calm","calmer","deep","deeper","desire", 
 "drifting","drop","empty","empty mind","floating","follow","keep looking","keep reading",
 "keep staring","keep watching","no thoughts","relax","sinking","stare","always aroused",
 "always horny","be seen","crave","display","love","need to","seen",
 "show off","show skin","showing off","skin","your body","be good","behave","down",
-"good pet","obey","sit","very good","well done"];
+"good pet","obey","sit","very good","well done",
+"drooling", "melt for me", "melt",
+];
 
 // Show a word every wordFreq frames, lasting for wordDuration frames.
 const wordFreq = 3 * parameters["fps"]
@@ -81,10 +83,6 @@ function draw_text() {
 function mousePressed() {
     let fs = fullscreen();
     fullscreen(!fs);
-    // saveFrames('out', 'png', 1, 30, //data => {
-    //  print(data);
-    //});
-    // );
 }
 
 function windowResized() {

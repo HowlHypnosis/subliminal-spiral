@@ -37,7 +37,7 @@ async function subscribe_to_script_server() {
         await subscribe_to_script_server();
     } else if (response.status != 200) {
         // An error - let's show it
-        showMessage(response.statusText);
+        print(response.statusText);
         // Reconnect in one second
         await new Promise(resolve => setTimeout(resolve, 1000));
         await subscribe_to_script_server();
