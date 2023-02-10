@@ -8,6 +8,8 @@
     <style> body {padding: 0; margin: 0;
       overflow: hidden; /* Hide scrollbars */} </style>
 
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
 	<!-- Main p5 library files -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
 
@@ -19,18 +21,18 @@
     "spiral" : "square",
   }
 
+  // parameters["subliminalSettings"] = {
+  //     "mode" : "random" // script, live
+  // }
+
   parameters["subliminalSettings"] = {
-      "mode" : "random" // script, live
+    "mode" : "script",
+    "scriptName" : "kneel-for-me"
   }
 
-  // parameters["subliminalSettings"] = {
-  //   "mode" : "script",
-  //   "scriptName" : "kneel-for-me.hypno"
-  // }
-
-  // parameters["subliminalSettings"] = {
-  //     "mode" : "live"
-  // }
+  //parameters["subliminalSettings"] = {
+  //    "mode" : "live"
+  //}
 
   // Get parameters from the URL, and use these to overwrite the parameters in the parameters dict.
   const query_params = new URLSearchParams(window.location.search)
