@@ -111,8 +111,11 @@ function draw() {
       
   
     // Rotate the centre around a 25 unit radius every 10s.
-    // moving_centre(10*parameters["fps"], 25);
-    stationary_centre();
+    if (parameters["centre"] == "moving") {
+      moving_centre(10*parameters["fps"], 25);
+    } else if (parameters["centre"] == "stationary") {
+      stationary_centre();
+    } 
 
     draw_spiral(parameters["spiral"])
   
