@@ -27,6 +27,10 @@ function setup() {
   // Begin long-poll to the script server. 
   subscribe_to_script_server();
 
+  if (parameters["spiral"] == "gif") {
+    setup_gif_spiral()
+  }
+
   // Initalise the subliminal selection.
   if (parameters["subliminal_mode"] == "random") {
     word = words[Math.floor(Math.random() * words.length)]
@@ -98,6 +102,8 @@ function draw_spiral(spiral_style) {
     draw_dot_spiral()
   } else if (spiral_style == "curve") {
     draw_curve_spiral()
+  } else if (parameters["spiral"] == "gif") {
+    draw_gif_spiral()
   } else {
     throw "Invalid spiral" + spiral_style
   }
