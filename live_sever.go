@@ -27,7 +27,7 @@ func wordServer(w http.ResponseWriter, req *http.Request) {
 }
 
 func spiralHandler(w http.ResponseWriter, req *http.Request) {
-	http.ServeFile(w, req, "static/spiral.html")
+	http.ServeFile(w, req, "static/spiral.html?spiral=live")
 }
 
 func main() {

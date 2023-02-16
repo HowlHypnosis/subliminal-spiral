@@ -24,9 +24,6 @@ function setup() {
   frameRate(parameters["fps"])
   rectMode(RADIUS);
 
-  // Begin long-poll to the script server. 
-  subscribe_to_script_server();
-
   // Initalise the subliminal selection.
   if (parameters["subliminal_mode"] == "random") {
     word = words[Math.floor(Math.random() * words.length)]
@@ -35,6 +32,9 @@ function setup() {
     fetch('scripts/' + parameters["subliminal_scriptName"] + ".hypno")
       .then(response => response.text())
       .then(text => wordQueue = text.split('\n'))
+  } else if (parameters["subliminal_mode"] == "live") {
+    // Begin long-poll to the script server. 
+    subscribe_to_script_server();
   }
 }
 
